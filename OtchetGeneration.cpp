@@ -7,7 +7,7 @@ using namespace std;
 
 string language(string ways, string n, int i, string programminglanguage) {
     string line{ "" };
-    fstream text(ways, ios::in | ios::out); //������������ ���������� � �����
+    fstream text(ways, ios::in | ios::out);
     if (text.is_open()) {
         vector<string> vec;
         for (int j = 1; j <= i; j++) {
@@ -66,18 +66,18 @@ string listing(string ways, string code, string n, int i) {
 }
 
 void titlePage(ofstream& file, string discipline, string numberLab, string teacher, string topic) {
-    file << "\\documentclass[oneside,a4paper,14pt]{extarticle} %������ ������ 14" << endl;
+    file << "\\documentclass[oneside,a4paper,14pt]{extarticle}" << endl;
     file << "\\usepackage[T1,T2A]{fontenc}" << endl;
     file << "\\usepackage[left=2.5cm,right=1.5cm,top=2cm,bottom=2cm]{geometry}" << endl;
-    file << "\\usepackage[utf8]{inputenc} % ��������� ������" << endl;
-    file << "\\usepackage[russian]{babel} % ��������� �������� �����" << endl;
-    file << "\\usepackage{textcomp} % ��������� �������" << endl;
-    file << "\\usepackage{indentfirst} % ������������� ��������" << endl;
-    file << "\\usepackage{graphicx} % ������ � ������������" << endl;
+    file << "\\usepackage[utf8]{inputenc}" << endl;
+    file << "\\usepackage[russian]{babel}" << endl;
+    file << "\\usepackage{textcomp}" << endl;
+    file << "\\usepackage{indentfirst}" << endl;
+    file << "\\usepackage{graphicx}" << endl;
     file << "\\usepackage{mwe} % for blindtext and example - image - a in example" << endl;
     file << "\\usepackage{wrapfig}" << endl;
     file << "\\usepackage{caption}" << endl;
-    file << "\\usepackage{amsmath} % ��� ������ � ��������" << endl;
+    file << "\\usepackage{amsmath}" << endl;
     file << "\\usepackage{amsfonts}" << endl;
     file << "\\usepackage{amsthm}" << endl;
     file << "\\usepackage{enumitem}" << endl;
@@ -95,13 +95,13 @@ void titlePage(ofstream& file, string discipline, string numberLab, string teach
     file << "{\\normalsize\\bfseries}" << endl;
     file << "{\\thesubsection} {1em} {}" << endl;
     file << "" << endl;
-    file << "\\newcommand{\\solutionheading}[1] {% ��������� �������" << endl;
+    file << "\\newcommand{\\solutionheading}[1] {" << endl;
     file << "    \\begin{flushleft}" << endl;
     file << "    \\hspace* {1cm}\\textbf{#1}" << endl;
     file << "    \\end{flushleft}" << endl;
     file << " }" << endl;
     file << "" << endl;
-    file << "\\renewcommand\\baselinestretch{1.33}\\normalsize% ����������� ��������" << endl;
+    file << "\\renewcommand\\baselinestretch{1.33}\\normalsize" << endl;
     file << "\\setlength{\\parindent}{1cm}" << endl;
     file << "\\usepackage{indentfirst}" << endl;
     file << "" << endl;
