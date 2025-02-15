@@ -5,7 +5,7 @@
 
 void PrintItog(int massive[], int Len) {
     char CheckWays;
-    char ItogWays[256] = "Itog.txt";
+    char ItogWays[256] = "output.txt";
     printf("Считать итоговый путь с клавиатуры или подставить стандартный? [Y/N] \n");
     scanf(" %c", &CheckWays);
     if (CheckWays == 'Y' || CheckWays == 'y') {
@@ -43,45 +43,62 @@ void SelectionSort(int Len, int massive[]) {
     PrintItog(massive, Len);
 }
 
-int GetMax(int arr[], int n) {
-    int mx = arr[0];
+int getMax(int array[], int n) {
+    int max = array[0];
     for (int i = 1; i < n; i++) {
-        if (arr[i] > mx) { mx = arr[i]; }
-    }
-    return mx;
-}
-
-void CountSort(int massive[], int Len, int exp) {
-    int* output = (int*)malloc(Len * sizeof(int));
-    int i, count[10] = { 0 };
-    int minValue = INT_MAX; // Ищем минимальное значение
-    for (i = 0; i < Len; i++) {
-        if (massive[i] < minValue) {
-            minValue = massive[i];
+        if (array[i] > max) {
+            max = array[i];
         }
     }
-    int offset = abs(minValue);  // Абсолютное значение минимума
-    for (i = 0; i < Len; i++) { count[((massive[i] + offset) / exp) % 10]++;}
-    /*for (i = 1; i < 10; i++) { count[i] += count[i - 1]; }*/
-    for (i = 8; i >= 0; i--) { count[i] += count[i + 1]; }//компаратор тут, он неявный у поразрядной сортировки
-    for (i = Len - 1; i >= 0; i--) {
-        output[count[((massive[i] + offset) / exp) % 10] - 1] = massive[i];
-        count[((massive[i] + offset) / exp) % 10]--;
+    return max;
+}
+
+void countingSort(int array[], int n, int place, int offset) {
+    int* output = (int*)malloc(n * sizeof(int));
+    int count[10] = { 0 };
+
+    // Calculate count of elements
+    for (int i = 0; i < n; i++) {
+        int index = ((array[i] + offset) / place) % 10;
+        count[index]++;
     }
-    for (i = 0; i < Len; i++) { massive[i] = output[i]; }
+    // Calculate cumulative count
+    for (int i = 1; i < 10; i++) {
+        count[i] += count[i - 1];
+    }
+    // Place the elements in sorted order
+    for (int i = n - 1; i >= 0; i--) {
+        int index = ((array[i] + offset) / place) % 10;
+        output[count[index] - 1] = array[i];
+        count[index]--;
+    }
+    // Copy the sorted elements into original array
+    for (int i = 0; i < n; i++) {
+        array[i] = output[i];
+    }
     free(output);
 }
 
-void RadixSort(int massive[], int Len) {
-    int m = GetMax(massive, Len);
-    for (int exp = 1; m / exp > 0; exp *= 10) {
-        CountSort(massive, Len, exp);
+void RadixSort(int array[], int n) {
+    int maxElement = getMax(array, n);
+
+    // Find minimum element to calculate offset
+    int minElement = array[0];
+    for (int i = 1; i < n; i++) {
+        if (array[i] < minElement) {
+            minElement = array[i];
+        }
     }
-    PrintItog(massive, Len);
+    int offset = abs(minElement);
+
+    // Apply counting sort to sort elements based on place value
+    for (int place = 1; maxElement / place > 0; place *= 10) {
+        countingSort(array, n, place, offset);
+    }
 }
 
 int main() {
-    char Ways[256] = "test.txt";//стандартный путь к файлу
+    char Ways[256] = "input.txt";//стандартный путь к файлу
     char CheckWays;
 
     printf("Считать путь с клавиатуры или подставить стандартный? [Y/N] \n");
@@ -120,6 +137,7 @@ int main() {
             }
             if (Sort == 'R' || Sort == 'r') {//
                 RadixSort(massive, Len);
+                PrintItog(massive, Len);
                 free(massive);
                 return 0;
             }
