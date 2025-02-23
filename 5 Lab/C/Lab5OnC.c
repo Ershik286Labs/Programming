@@ -1,7 +1,8 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
+#include <locale.h>
 
 void PrintItog(int massive[], int Len) {
     char CheckWays;
@@ -24,81 +25,77 @@ void PrintItog(int massive[], int Len) {
     }
 }
 
-void SelectionSort(int Len, int massive[]) {
-    int Min, index;
+void CompareSelection(int* a, int b, int* index, int j) {
+    if (*a > b) {
+        *a = b;
+        *index = j;
+    }
+}
+
+void Swap(int Extremum, int i, int index, int massive[]) {
+    if (massive[i] > Extremum) {
+        int temp = massive[i];
+        massive[i] = Extremum;
+        massive[index] = temp;
+    }
+}
+
+void SelectionSort(int Len, int massive[], void CompareSelection(int*, int, int*, int)) {
+    int Extremum, index;
     for (int i = 0; i < Len - 1; i++) {
-        Min = massive[i];
+        Extremum = massive[i];
         index = i;
         for (int j = i + 1; j < Len; j++) {
-            if (massive[j] < Min) {//компаратор
-                Min = massive[j];
-                index = j;
-            }
+            CompareSelection(&Extremum, massive[j], &index, j);
         }
-        if (Min < massive[i]) {
-            massive[index] = massive[i];
-            massive[i] = Min;
-        }
+        Swap(Extremum, i, index, massive);
     }
     PrintItog(massive, Len);
 }
 
-int getMax(int array[], int n) {
-    int max = array[0];
+int GetMax(int arr[], int n) {
+    int mx = arr[0];
     for (int i = 1; i < n; i++) {
-        if (array[i] > max) {
-            max = array[i];
-        }
+        if (arr[i] > mx) { mx = arr[i]; }
     }
-    return max;
+    return mx;
 }
 
-void countingSort(int array[], int n, int place, int offset) {
-    int* output = (int*)malloc(n * sizeof(int));
-    int count[10] = { 0 };
+void CompareRadix(int count[]) {
+    for (int i = 1; i < 10; i++) { count[i] += count[i - 1]; } //это для возрастания
+    //for (int i = 8; i >= 0; i--) { count[i] += count[i + 1]; }//компаратор тут, он неявный у поразрядной сортировки, это для убывания
+}
 
-    // Calculate count of elements
-    for (int i = 0; i < n; i++) {
-        int index = ((array[i] + offset) / place) % 10;
-        count[index]++;
+void CountSort(int massive[], int Len, int exp) {
+    int* output = (int*)malloc(Len * sizeof(int));
+    int i, count[10] = { 0 };
+    int minValue = massive[0]; // Ищем минимальное значение
+    for (i = 0; i < Len; i++) {
+        if (massive[i] < minValue) {
+            minValue = massive[i];
+        }
     }
-    // Calculate cumulative count
-    for (int i = 1; i < 10; i++) {
-        count[i] += count[i - 1];
+    int offset = abs(minValue);  // Абсолютное значение минимума
+    for (i = 0; i < Len; i++) { count[((massive[i] + offset) / exp) % 10]++;}
+    CompareRadix(count);
+    for (i = Len - 1; i >= 0; i--) {
+        output[count[((massive[i] + offset) / exp) % 10] - 1] = massive[i];
+        count[((massive[i] + offset) / exp) % 10]--;
     }
-    // Place the elements in sorted order
-    for (int i = n - 1; i >= 0; i--) {
-        int index = ((array[i] + offset) / place) % 10;
-        output[count[index] - 1] = array[i];
-        count[index]--;
-    }
-    // Copy the sorted elements into original array
-    for (int i = 0; i < n; i++) {
-        array[i] = output[i];
-    }
+    for (i = 0; i < Len; i++) { massive[i] = output[i]; }
     free(output);
 }
 
-void RadixSort(int array[], int n) {
-    int maxElement = getMax(array, n);
-
-    // Find minimum element to calculate offset
-    int minElement = array[0];
-    for (int i = 1; i < n; i++) {
-        if (array[i] < minElement) {
-            minElement = array[i];
-        }
+void RadixSort(int massive[], int Len) {
+    int m = GetMax(massive, Len);
+    for (int exp = 1; m / exp > 0; exp *= 10) {
+        CountSort(massive, Len, exp);
     }
-    int offset = abs(minElement);
-
-    // Apply counting sort to sort elements based on place value
-    for (int place = 1; maxElement / place > 0; place *= 10) {
-        countingSort(array, n, place, offset);
-    }
+    PrintItog(massive, Len);
 }
 
 int main() {
-    char Ways[256] = "input.txt";//стандартный путь к файлу
+    char Ways[256] = "testMillion.txt";//стандартный путь к файлу
     char CheckWays;
 
     printf("Считать путь с клавиатуры или подставить стандартный? [Y/N] \n");
@@ -111,10 +108,10 @@ int main() {
     if (file != NULL) {
         int Len = 0;//счетчик чисел
         int temp;
-        while (fscanf(file, "%d", &temp) == 1) {//функция, возвращает int значение, 
-            Len++;
-        }
-        rewind(file);//переместились в начало
+        fscanf(file, "%d", &Len);
+        //while (fscanf(file, "%d", &temp) == 1) {//функция, возвращает int значение, 
+        //    Len++;
+        //}
         int* massive = (int*)malloc(Len * sizeof(int));
 
         int k = 0;
@@ -129,24 +126,21 @@ int main() {
             printf("Для cортировки 'Выбором' нажмите S\n");
             printf("Для 'поразрядной по младшим' нажмите R\n");
             char Sort;
-            scanf(" %c", &Sort);//считал букву
-            if (Sort == 'S' || Sort == 's') {//
-                SelectionSort(Len, massive);
+            scanf(" %c", &Sort);
+            if (Sort == 'S' || Sort == 's') {
+                SelectionSort(Len, massive, CompareSelection);
                 free(massive);
                 return 0;
             }
-            if (Sort == 'R' || Sort == 'r') {//
+            if (Sort == 'R' || Sort == 'r') {
                 RadixSort(massive, Len);
-                PrintItog(massive, Len);
                 free(massive);
                 return 0;
             }
-            //
         }
     }
     else {
         printf("Не удалось открыть файл\n");
         return 0;
     }
-    //*
 }
