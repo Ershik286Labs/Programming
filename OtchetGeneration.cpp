@@ -27,6 +27,7 @@ string language(string ways, string n, int i, string programminglanguage) {
         if (programminglanguage == "a") {
             programminglanguage = "Java";
         }
+        if (programminglanguage == "o") { programminglanguage = "Arduino"; }
     }
     return programminglanguage;
 }
@@ -74,7 +75,7 @@ void titlePage(ofstream& file, string discipline, string numberLab, string teach
     file << "\\usepackage{textcomp}" << endl;
     file << "\\usepackage{indentfirst}" << endl;
     file << "\\usepackage{graphicx}" << endl;
-    file << "\\usepackage{mwe} % for blindtext and example - image - a in example" << endl;
+    file << "\\usepackage{mwe}" << endl;
     file << "\\usepackage{wrapfig}" << endl;
     file << "\\usepackage{caption}" << endl;
     file << "\\usepackage{amsmath}" << endl;
@@ -141,6 +142,9 @@ void titlePage(ofstream& file, string discipline, string numberLab, string teach
     file << "\\newpage\\thispagestyle{empty}" << endl;
 }
 int main(){
+
+    //SetConsoleOutputCP(CP_UTF8);
+    //SetConsoleCP(CP_UTF8);
     int k = 0;
     int sumk = 0;
     int numberOfTasks;
@@ -153,7 +157,7 @@ int main(){
 
     ofstream file(report, ios::app);
     if (file.is_open()) {
-        cout << "Выберите дисциплину (I/P/Cult) (I - Информатика, P - Программирование, Cult - Инженерная культура): ";
+        cout << "Выберите дисциплину (I/P/D) (I - Информатика, P - Программирование, D - Дискретная математика): ";
         cin >> discipline;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
@@ -165,26 +169,28 @@ int main(){
             discipline = "<<Программирование>>";
             teacher = "Крутиков А. К.";
         }
-        if (discipline == "Cult") {
-            discipline = "<<Инженерная культура>>";
-            teacher = "Скворцов Т. Н.";//тюбик николаевич
+        if (discipline == "D") {
+            discipline = "<<Дискретная математика>>";
+            teacher = "Пахарева И. В.";
         }
         cout << discipline << endl;
 
-        cout << "Введите номер лабораторной работы: " << endl;//����� ������
+        cout << "Введите номер лабораторной работы: " << endl;
         cin >> numberLab;
         numberLab = "Отчёт по лабораторной работе №" + numberLab + "\\\\";
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         titlePage(file, discipline, numberLab, teacher, topic);
 
-        file << "\\solutionheading{Цель}" << endl;
-        string purpose;
-        cout << "Введите цель Лабораторной работы: " << endl;
-        cin >> purpose;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        //file << "\\solutionheading{Цель}" << endl;
+        //string purpose;
+        //cout << "Введите цель Лабораторной работы: " << endl;
+        //cin >> purpose;
+        //cout << purpose;
+        //cin.ignore(numeric_limits<streamsize>::max(), '\n');
         file << "" << endl;
-        file << purpose << endl;
+        //file << purpose;
+        int countImage = 1;
 
         file << "\\solutionheading{Задание}" << endl;
         cout << "Введите количество заданий: " << endl;
@@ -199,11 +205,12 @@ int main(){
 
         file << "" << endl;
         file << "\\newpage\\thispagestyle{empty}" << endl;
+        file << "" << endl;
         file << "\\solutionheading{Задание}" << endl;
         file << "" << endl;
 
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Введите путь к файлу с путями (C:/Users...)" << endl;
+        cout << "Введите путь к файлу с путями к кодам (C:/Users...)" << endl;
         string ways{ "" };
         cin >> ways;
 
@@ -224,16 +231,68 @@ int main(){
             else {
                 file << "\\solutionheading{Задание " << i << "}" << endl;
             }
+            file << "" << endl;
 
             file << "\\textbf{Сюда вставь задание}" << endl;
 
+            file << "" << endl;
+
+            if (discipline == "<<Информатика>>") {
+
+                int variant;
+
+                cout << "Введите вариант работы" << endl;
+                cin >> variant;
+
+                file << "\\begin{table}[H]" << endl;
+
+                file << "\\begin{tabular}{|l|l|l|l|}" << endl;
+
+                file << "\\hline" << endl;
+
+                file << "\\begin{tabular}[c]{@{}l@{}}Вариант\\ " << variant << "\\end{tabular} & \\begin{tabular}[c]{@{}l@{}}Начальное\\\\" << endl;
+
+                file << "\\\\состояние\\end{tabular} & \\begin{tabular}[c]{@{}l@{}}Направление\\\\ движения\\end{tabular} & Пример" << endl;
+
+                file << "\\\\ \\hline" << endl;
+
+                file << "8 & + & \\begin{tabular}[c]{@{}l@{}}От крайних\\\\  к середине\\\\ чет/нечет\\end{tabular} & 08/26/4/35 \\\\ \\hline" << endl;
+
+                file << "\\end{tabular}" << endl;
+
+                file << "\\end{table}" << endl;
+
+            }
             file << "" << endl;
 
             file << "\\textbf{Решение}" << endl;
 
             file << "\\newpage\\thispagestyle{empty}" << endl;
 
-            file << "<Сюда картинку со схемой>" << endl;
+            if (discipline == "<<Информатика>>") {
+
+                file << "Схема сборки представлена на рисунке " << countImage + 1 << ".Принципиальная схема представлена на рисунке " << countImage + 2 << ". Ссылка на проект : " << endl;
+
+                file << "\\href{}{ССЫЛКА}" << endl;
+
+                file << "\\begin{figure}[H]" << endl;
+                file << "    \\centering" << endl;
+                file << "    \\includegraphics[width = 1\\linewidth]{TaskMaket" << i << ".png}" << endl;
+                file << "    \\caption* { Рисунок " << countImage + 1 << " - Cхема сборки на макетной плате }" << endl;
+                file << "        \\label{ fig:enter - label }" << endl;
+                file << "\\end{figure}" << endl;
+                file << "" << endl;
+
+                file << "\\begin{figure}[H]" << endl;
+                file << "    \\centering" << endl;
+                file << "    \\includegraphics[width = 1\\linewidth]{TaskPrinc" << i << ".png}" << endl;
+                file << "    \\caption* { Рисунок " << countImage + 2 << " - Принципиальная схема }" << endl;
+                file << "        \\label{ fig:enter - label }" << endl;
+                file << "\\end{figure}" << endl;
+                file << "" << endl;
+
+                countImage += 2;
+            }
 
             file << "" << endl;
 
@@ -245,7 +304,10 @@ int main(){
 
             programminglanguage = language(ways, n, i, programminglanguage);
 
-            file << "\\textbf{Решение на языке программирования " << "<<" << programminglanguage << ">>" << "}" << endl;
+            file << "\\textbf{Решение на языке программирования " << "<<";
+            
+            if (discipline == "<<Информатика>>") {file << "C++ " + programminglanguage << ">>" << "}" << endl; }//ардуино
+            else { file << programminglanguage << ">>" << "}" << endl; }
 
             file << "\\begin{minted}[linenos=true]{" << programminglanguage << "}" << endl;
 
@@ -260,7 +322,9 @@ int main(){
             file << "" << endl;
         }
         file << "\\solutionheading{Вывод}" << endl;
+        file << "" << endl;
         file << "<Сюда вставь вывод>" << endl;
+        file << "" << endl;
         file << "\\end{document}" << endl;
 
         file.close();
