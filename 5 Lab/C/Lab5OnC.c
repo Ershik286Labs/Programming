@@ -25,15 +25,16 @@ void PrintItog(int massive[], int Len) {
     }
 }
 
-void CompareSelection(int* a, int b, int* index, int j) {
-    if (*a > b) {
-        *a = b;
-        *index = j;
+void CompareSelection(int massive[]) {
+    Extremum = massive[i];
+    index = i;
+    for (int j = i + 1; j < Len; j++) {
+        if (Extremum < massive[j]) {
+            Extremum = massive[j];
+            index = j;
+        }
     }
-}
-
-void Swap(int Extremum, int i, int index, int massive[]) {
-    if (massive[i] > Extremum) {
+    if (Extremum != massive[i]) {
         int temp = massive[i];
         massive[i] = Extremum;
         massive[index] = temp;
@@ -43,12 +44,7 @@ void Swap(int Extremum, int i, int index, int massive[]) {
 void SelectionSort(int Len, int massive[], void CompareSelection(int*, int, int*, int)) {
     int Extremum, index;
     for (int i = 0; i < Len - 1; i++) {
-        Extremum = massive[i];
-        index = i;
-        for (int j = i + 1; j < Len; j++) {
-            CompareSelection(&Extremum, massive[j], &index, j);
-        }
-        Swap(Extremum, i, index, massive);
+        
     }
     PrintItog(massive, Len);
 }
