@@ -41,7 +41,7 @@ void CompareSelection(int massive[], int i) {
     }
 }
 
-void SelectionSort(int Len, int massive[], void CompareSelection(int [], int i)) {
+void SelectionSort(int Len, int massive[], void CompareSelection(int [], int)) {
     int Extremum, index;
     for (int i = 0; i < Len - 1; i++) {
         CompareSelection(massive, i);
