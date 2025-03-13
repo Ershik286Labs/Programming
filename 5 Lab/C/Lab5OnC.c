@@ -25,7 +25,7 @@ void PrintItog(int massive[], int Len) {
     }
 }
 
-void CompareSelection(int massive[]) {
+void CompareSelection(int massive[], int i) {
     Extremum = massive[i];
     index = i;
     for (int j = i + 1; j < Len; j++) {
@@ -41,10 +41,10 @@ void CompareSelection(int massive[]) {
     }
 }
 
-void SelectionSort(int Len, int massive[], void CompareSelection(int [])) {
+void SelectionSort(int Len, int massive[], void CompareSelection(int [], int i)) {
     int Extremum, index;
     for (int i = 0; i < Len - 1; i++) {
-        CompareSelection(massive);
+        CompareSelection(massive, i);
     }
     PrintItog(massive, Len);
 }
