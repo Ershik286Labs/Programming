@@ -1,4 +1,4 @@
-﻿Uses Crt, GraphABC;
+Uses Crt, GraphABC;
 
 Const
   u = 10;
@@ -52,11 +52,11 @@ var
 
 Begin
   SetWindowCaption('Фракталы: Кривая Гильберта');
-  SetWindowSize(500, 500);
+  SetWindowSize(800, 800);
   ClearWindow;
   Writeln('Введите глубину рекурсии');
   readln(size);
-
+  if size > 7 then size := 7;
   SetLength(points, 0);
   hilbertCurve(points, 80, 480, 400, 0, 0, -400, size);  // Исправлено: y = 480 чтобы кривая помещалась, а yj = -400 чтобы кривая была направлена вверх. уменьшил другие параметры чтобы кривая помещалась
 
