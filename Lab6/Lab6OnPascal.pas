@@ -41,7 +41,7 @@ begin
   if Length(points) = 0 then Exit;
 
   MoveTo(Round(points[0].x), Round(points[0].y));
-  for i := 1 to High(points) do  // исправлено: начинаем с 1, чтобы не повторять первую точку
+  for i := 1 to High(points) do
   begin
     LineTo(Round(points[i].x), Round(points[i].y));
   end;
@@ -58,7 +58,7 @@ Begin
   readln(size);
   if size > 7 then size := 7;
   SetLength(points, 0);
-  hilbertCurve(points, 80, 480, 400, 0, 0, -400, size);  // Исправлено: y = 480 чтобы кривая помещалась, а yj = -400 чтобы кривая была направлена вверх. уменьшил другие параметры чтобы кривая помещалась
+  hilbertCurve(points, 80, 480, 400, 0, 0, -400, size);
 
   drawHilbertCurve(points);
   Readln;
