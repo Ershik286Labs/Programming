@@ -1,4 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <conio.h>
 
 //Фамилия: Ершов
 //Вариант : 14
@@ -15,18 +19,12 @@
 //	3. Структура данных(поля и методы) должна быть описана в отдельном модуле.
 //	4. Работа со структурой должна осуществляться в режиме командной строки(с реализацией автодополнения и истории команд).Предусмотреть наглядную визуализацию содержимого структуры.
 
-
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <conio.h>
-
 const int maxLenCommand = 100;
 
 struct Dek {
-	int number;
-	int* leftEnd;
-	int* rightEnd;
+    int number;
+    int* leftEnd;
+    int* rightEnd;
 };
 
 //PushBack — добавление в конец очереди; 2
@@ -36,18 +34,16 @@ struct Dek {
 //IsEmpty — проверка наличия элементов; 2
 //Clear — очистка. 2
 //Swap - перестановка
+//replace - изменение значения 
 
-const int Tab = 9;
-const int Enter = 13;
-const int BackSpace = 8;
-
-char pushBack[9] = "/pushBack";
-char pushFront[10] = "/pushFront";
-char popBack[8] = "/popBack";
-char popFront[9] = "/popFront";
-char isEmpty[8] = "/isEmpty";
-char clear[6] = "/clear";
-char swap[5] = "/swap";
+const char* pushBack = "/pushBack";
+const char* pushFront = "/pushFront";
+const char* popBack = "/popBack";
+const char* popFront = "/popFront";
+const char* isEmpty = "/isEmpty";
+const char* clear = "/clear";
+const char* swap = "/swap";
+const char* replace = "/replace";
 
 const int CommandQuantity = 7;
 
@@ -55,218 +51,236 @@ int ChoiseIndex = 0;
 int ChoiseFlag = 0;
 int tempChoise = 0;
 
-void CommandCopy(char* Function, int NumberCommand) {
-	switch (NumberCommand) {
-	case 0:
-		Function = (char*)malloc(strlen(pushBack) * sizeof(char));
-		strcpy(Function, pushBack);
-		break;
-	case 1:
-		Function = (char*)malloc(strlen(pushFront) * sizeof(char));
-		strcpy(Function, pushFront);
-		break;
-	case 2:
-		Function = (char*)malloc(strlen(popBack) * sizeof(char));
-		strcpy(Function, popBack);
-		break;
-	case 3:
-		Function = (char*)malloc(strlen(popFront) * sizeof(char));
-		strcpy(Function, popFront);
-		break;
-	case 4:
-		Function = (char*)malloc(strlen(isEmpty) * sizeof(char));
-		strcpy(Function, isEmpty);
-		break;
-	case 5:
-		Function = (char*)malloc(strlen(clear) * sizeof(char));
-		strcpy(Function, clear);
-		break;
-	case 6:
-		Function = (char*)malloc(strlen(swap) * sizeof(char));
-		strcpy(Function, swap);
-		break;
-	}
+const int Tab = 9;
+const int Enter = 13;
+const int BackSpace = 8;
+
+void Replace(struct Dek* dek, int ChoiseIndex, int *len) {
+    int number;
+    printf("Введите новое значение элемента стека: %d", &number);
+    dek[ChoiseIndex].number = number;
 }
 
-int AutoSubstitution(char command[], int CountCommand, int NumberCommand) {
-	int k1 = 0;
-	char* Function = (char*)malloc(1 * sizeof(char)); // Локальная переменная, а не указатель
-	CommandCopy(Function, NumberCommand);
-	int strlen1 = strlen(command);
-	int strlen2 = strlen(Function);
-	int len = strlen2 < strlen1 ? strlen2 : strlen1;
-
-	for (int i = 0; i < len; i++) {
-		if (command[i] == Function[i]) k1++;
-	}
-	free(Function);
-	return k1;
+void Swap(struct Dek* dek, int tempIndex, int ChoiseIndex) {
+    int temp = dek[tempIndex].number;
+    dek[tempIndex].number = dek[ChoiseIndex].number;
+    dek[ChoiseIndex].number = temp;
+    printf("элементы поменяны\n");
 }
 
-void Swap(struct Dek* dek, int tempIndex, int ChoiseIndex, int len) {
-	int temp = dek[tempIndex].number;
-	dek[tempIndex].number = dek[ChoiseIndex].number;
-	dek[ChoiseIndex].number = temp;
+void PushBack(int* len, struct Dek** dek) {
+    int number;
+    printf("Введите число: ");
+    scanf("%d", &number);
+
+    struct Dek* tempMassive = (struct Dek*)malloc(*len * sizeof(struct Dek));
+    for (int i = 0; i < *len; i++) {
+        tempMassive[i] = (*dek)[i];
+    }
+    free(*dek);
+    *dek = (struct Dek*)malloc((*len + 1) * sizeof(struct Dek));
+    for (int i = 0; i < *len; i++) {
+        (*dek)[i] = tempMassive[i];
+    }
+    (*dek)[*len].number = number;
+    (*len)++;
+    free(tempMassive);
 }
 
-void PushBack(int len, struct Dek* dek) {
-	int number;
-	printf("Введите число ");
-	scanf("%d\n", &number);
+void PushFront(int* len, struct Dek** dek) {
+    int number;
+    printf("Введите число: ");
+    scanf("%d", &number);
 
-	struct Dek* tempMassive = (struct Dek*)malloc(len * sizeof(struct Dek));
-	for (int i = 0; i < len; i++) {
-		tempMassive[i].number = dek[i].number;
-	}
-	dek = (struct Dek*)malloc(len + 1 * sizeof(struct Dek));
-	for (int i = 0; i < len + 1; i++) {
-		dek[i].number = tempMassive[i].number;
-		*dek[i].leftEnd = 0;
-		*dek[i].rightEnd = len;
-	}
-	dek[len].number = number;
-	*dek[len].leftEnd = 0;
-	*dek[len].rightEnd = len;
-}
-
-void PushFront(int len, struct Dek* dek) {
-	int number;
-	while (1) {
-		if (scanf("%d\n", &number) == 1) break;
-	}
-
-	struct Dek* tempMassive = (struct Dek*)malloc(len * sizeof(struct Dek));
-	for (int i = 0; i < len; i++) {
-		tempMassive[i].number = dek[i].number;
-	}
-	dek = (struct Dek*)malloc(len + 1 * sizeof(struct Dek));
-	dek[0].number = number;
-	for (int i = 1; i < len + 1; i++) {
-		dek[i].number = tempMassive[i].number;
-		*dek[i].leftEnd = 0;
-		*dek[i].rightEnd = len;
-	}
+    struct Dek* tempMassive = (struct Dek*)malloc(*len * sizeof(struct Dek));
+    for (int i = 0; i < *len; i++) {
+        tempMassive[i] = (*dek)[i];
+    }
+    free(*dek);
+    *dek = (struct Dek*)malloc((*len + 1) * sizeof(struct Dek));
+    (*dek)[0].number = number;
+    for (int i = 0; i < *len; i++) {
+        (*dek)[i + 1] = tempMassive[i];
+    }
+    (*len)++;
+    free(tempMassive);
 }
 
 void PopBack(int len, struct Dek* dek) {
-	ChoiseIndex = len - 1;
-	if (ChoiseFlag == 0) {
-		tempChoise = ChoiseIndex;
-		ChoiseFlag = 1;
-	}
-	else {
-		Swap(dek, tempChoise, ChoiseIndex, len);
-	}
+    ChoiseIndex = len - 1;
+    if (ChoiseFlag == 0) {
+        tempChoise = ChoiseIndex;
+        ChoiseFlag = 1;
+    }
+    else {
+        Swap(dek, tempChoise, ChoiseIndex);
+    }
 }
 
 void PopFront(int len, struct Dek* dek) {
-	ChoiseIndex = 0;
-	if (ChoiseFlag == 0) {
-		ChoiseIndex = 0;
-		ChoiseFlag = 1;
-	}
-	else {
-		Swap(dek, tempChoise, ChoiseIndex, len);
-	}
+    ChoiseIndex = 0;
+    if (ChoiseFlag == 0) {
+        tempChoise = ChoiseIndex;
+        ChoiseFlag = 1;
+    }
+    else {
+        Swap(dek, tempChoise, ChoiseIndex);
+    }
 }
 
 void IsEmpty(int len, struct Dek* dek) {
-	int number;
-	printf("Введите число");
-	scanf("%d", &number);
-	for (int i = 0; i < len; i++) {
-		if (dek[i].number == number) {
-			printf("Выбранное число есть в структуре, его номер: %d\n", i);
-			return;
-		}
-	}
-	printf("Выбранного числа нет в структуре. \n");
+    int number;
+    printf("Введите число: ");
+    scanf("%d", &number);
+    for (int i = 0; i < len; i++) {
+        if (dek[i].number == number) {
+            printf("Выбранное число есть в структуре, его номер: %d\n", i);
+            return;
+        }
+    }
+    printf("Выбранного числа нет в структуре.\n");
 }
 
 void Clear(int len, struct Dek* dek) {
-	for (int i = 0; i < len; i++) {
-		dek[i].number = 0;
-	}
+    for (int i = 0; i < len; i++) {
+        dek[i].number = 0;
+    }
 }
 
 void PrintMassive(int len, struct Dek* dek) {
-	for (int i = 0; i < len; i++) {
-		printf("%d\n", dek[i].number);
-	}
+    printf("Содержимое дека:\n");
+    for (int i = 0; i < len; i++) {
+        printf("[%d] %d\n", i, dek[i].number);
+    }
+    printf("\n");
 }
 
-void Input(int len, struct Dek* dek, char command[]) {
-	system("cls");
-	PrintMassive(len, dek);
-	int count = 0;
-	while (1) {
-		char k = getch();
-		if ((int)k == BackSpace) {
-			count--;
-			if (count < 0) count = 0;
-			command[count] = "";
-			system("cls");
-			PrintMassive(len, dek);
-			for (int i = 0; i <= count; i++) {
-				printf("%c", command[i]);
-			}
-		}
-		else if ((int)k == Tab) {//autosubstitution
-			int massiveSubstitution[7];
-			int max = 0;
-			int maxIndex = 0;
-			for (int i = 0; i < 7; i++) {
-				massiveSubstitution[i] = AutoSubstitution(command, count, i);
-				if (massiveSubstitution[i] > max) max = massiveSubstitution[i]; maxIndex = i;
-			}
-			CommandCopy(command, maxIndex);
-			system("cls");
-			PrintMassive(len, dek);
-			for (int i = 0; i <= count; i++) {
-				printf("%c", command[i]);
-			}
-		}
-		else if ((int)k == Enter) {//End Input
-			if (strcmp(command, pushBack)) {
-				PushBack(len, dek);
-			}
-			if (strcmp(command, pushFront)) {
-				PushFront(len, dek);
-			}
-			if (strcmp(command, popBack)) {
-				PopBack(len, dek);
-			}
-			if (strcmp(command, popFront)) {
-				PopFront(len, dek);
-			}
-			if (strcmp(command, isEmpty)) {
-				IsEmpty(len, dek);
-			}
-			if (strcmp(command, clear)) {
-				Clear(len, dek);
-			}
-			break;
-		}
-		else if (count < maxLenCommand - 1){
-			command[count] = k;
-			printf("%c", k);
-			count++;
-		}
-		else {
-			printf("Команда слишком длинная.");
-		}
-		//printf("%d\n", (int)k);
-	}
+int AutoSubstitution(char* command, int count, int NumberCommand) {
+    const char* Function;
+    switch (NumberCommand) {
+    case 0: Function = pushBack; break;
+    case 1: Function = pushFront; break;
+    case 2: Function = popBack; break;
+    case 3: Function = popFront; break;
+    case 4: Function = isEmpty; break;
+    case 5: Function = clear; break;
+    case 6: Function = swap; break;
+    default: return 0;
+    }
+
+    int k1 = 0;
+    int len = count < (int)strlen(Function) ? count : (int)strlen(Function);
+
+    for (int i = 0; i < len; i++) {
+        if (command[i] == Function[i]) k1++;
+    }
+    return k1;
 }
+
+void Input(int* len, struct Dek** dek) {
+    system("cls");
+    PrintMassive(*len, *dek);
+
+    char command[100] = { "" };
+    int count = 0;
+
+    //printf("Введите команду: ");
+    while (1) {
+        char k = getch();
+        if ((int)k == BackSpace) {
+            if (count > 0) {
+                count--;
+                command[count] = '\0';
+                system("cls");
+                PrintMassive(*len, *dek);
+                printf("%s", command);
+            }
+        }
+        else if ((int)k == Tab) {
+            int massiveSubstitution[7];
+            int max = 0;
+            int maxIndex = 0;
+            for (int i = 0; i < 7; i++) {
+                massiveSubstitution[i] = AutoSubstitution(command, count, i);
+                if (massiveSubstitution[i] > max) {
+                    max = massiveSubstitution[i];
+                    maxIndex = i;
+                }
+            }
+
+            const char* fullCommand;
+            switch (maxIndex) {
+            case 0: fullCommand = pushBack; break;
+            case 1: fullCommand = pushFront; break;
+            case 2: fullCommand = popBack; break;
+            case 3: fullCommand = popFront; break;
+            case 4: fullCommand = isEmpty; break;
+            case 5: fullCommand = clear; break;
+            case 6: fullCommand = swap; break;
+            default: fullCommand = ""; break;
+            }
+
+            strcpy(command, fullCommand);
+            count = strlen(command);
+            system("cls");
+            PrintMassive(*len, *dek);
+            printf("%s", command);
+        }
+        else if ((int)k == Enter) {
+            printf("\n");
+            if (strcmp(command, pushBack) == 0) {
+                PushBack(len, dek);
+            }
+            else if (strcmp(command, pushFront) == 0) {
+                PushFront(len, dek);
+            }
+            else if (strcmp(command, popBack) == 0) {
+                PopBack(*len, *dek);
+            }
+            else if (strcmp(command, popFront) == 0) {
+                PopFront(*len, *dek);
+            }
+            else if (strcmp(command, isEmpty) == 0) {
+                IsEmpty(*len, *dek);
+            }
+            else if (strcmp(command, clear) == 0) {
+                Clear(*len, *dek);
+            }
+            else if (strcmp(command, swap) == 0) {
+                if (ChoiseFlag == 1) {
+                    Swap(*dek, tempChoise, ChoiseIndex);
+                    ChoiseFlag = 0;
+                }
+            }
+            else if (strcmp(command, replace) == 0) {
+                if (ChoiseFlag == 1) {
+                    Replace(*dek, ChoiseIndex, *len);
+                }
+            }
+            else {
+                printf("Неизвестная команда\n");
+            }
+            break;
+        }
+        else if (count < maxLenCommand - 1) {
+            command[count] = k;
+            count++;
+            printf("%c", k);
+        }
+    }
+    getchar(); // Очистка буфера ввода
+}
+
 int main() {
-	int len = 1;
-	struct Dek* dek;
-	dek = (struct Dek*)malloc(len * sizeof(struct Dek));//Start Massive
-	char* command = (char*)malloc(1 * sizeof(char));
-	dek[0].number = 0;
-	dek[0].leftEnd = 0;
-	dek[0].rightEnd = 0;
-	while (1) {
-		Input(len, dek, command);
-	}
+    int len = 1;
+    struct Dek* dek = (struct Dek*)malloc(len * sizeof(struct Dek));
+    dek[0].number = 0;
+    dek[0].leftEnd = NULL;
+    dek[0].rightEnd = NULL;
+
+    while (1) {
+        Input(&len, &dek);
+    }
+    free(dek);
+    return 0;
 }
