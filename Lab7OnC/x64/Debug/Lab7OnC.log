@@ -1,0 +1,7 @@
+﻿  Main.c
+C:\Users\Nikita\source\repos\Lab7OnC\Lab7OnC\Main.c(46,12): warning C4477: "printf": в строке форматирования "%d" требуется аргумент типа "int", но вариативный аргумент "1" имеет тип "int *"
+C:\Users\Nikita\source\repos\Lab7OnC\Lab7OnC\Main.c(46,12): warning C4313: printf: конфликт "%d" в строке формата с аргументом 1 типа "int *"
+C:\Users\Nikita\source\repos\Lab7OnC\Lab7OnC\Main.c(209,21): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Nikita\source\repos\Lab7OnC\Lab7OnC\Main.c(242,48): warning C4047: функция: "int *" отличается по уровням косвенного обращения от "int"
+C:\Users\Nikita\source\repos\Lab7OnC\Lab7OnC\Main.c(242,48): warning C4024: Replace: различные типы для формального и фактического параметров 3
+  Lab7OnC.vcxproj -> C:\Users\Nikita\source\repos\Lab7OnC\x64\Debug\Lab7OnC.exe
