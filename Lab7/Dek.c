@@ -4,6 +4,7 @@
 
 #include "Dek.h"
 
+// Определения констант
 const char* help = "/help";
 const char* pushBack = "/pushBack";
 const char* pushFront = "/pushFront";
@@ -13,6 +14,7 @@ const char* isEmpty = "/isEmpty";
 const char* clear = "/clear";
 const char* swap = "/swap";
 const char* replace = "/replace";
+
 
 const int CommandQuantity = 7;
 
