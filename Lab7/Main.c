@@ -28,6 +28,18 @@ const char* clear = "/clear";
 const char* swap = "/swap";
 const char* replace = "/replace";
 
+void Help() {
+    printf("%s - показать все возможные команды\n", help);
+    printf("%s - положить элемент в конец дека\n", pushBack);
+    printf("%s - положить элемент в начало дека\n", pushFront);
+    printf("%s - взять элемент в конце дека\n", popBack);
+    printf("%s - взять элемент в начале дека\n", popFront);
+    printf("%s - проверить наличие элемента в деке\n", isEmpty);
+    printf("%s - удалить выбранный элемент\n", clear);
+    printf("%s - переставить элементы\n", swap);
+    printf("%s - заменить значение элемента дека\n", replace);
+}
+
 int countHistoryCommand = 0;
 
 void HistoryCommand(char* command[]) {
