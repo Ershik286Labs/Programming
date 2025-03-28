@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <conio.h>
+
 #include "Dek.h"
 
 const int maxLenCommand = 100;
@@ -10,12 +11,6 @@ const int keyUp = 72;
 const int keyDown = 80;
 
 void Input(int* len, struct Dek** dek);
-
-struct Dek {
-    int number;
-    int leftEnd;
-    int rightEnd;
-};
 
 int ChoiseIndex;
 int ChoiseFlag = 0;
@@ -84,7 +79,7 @@ void Input(int* len, struct Dek** dek) {
     while (1) {
         Print(*len, *dek, command);
         char k = getch();
-        if ((int)k == keyUp) { 
+        if ((int)k == keyUp) {
             choiseCommand = (choiseCommand + 1) % 40;
             strcpy(command, MassiveHistoryCommand[choiseCommand]);
         }
@@ -188,7 +183,7 @@ void Input(int* len, struct Dek** dek) {
 int main() {
     int len = 0;
     struct Dek* dek = (struct Dek*)malloc(len * sizeof(struct Dek));
-    while (1) 
+    while (1)
         Input(&len, &dek);
     free(dek);
     return 0;
