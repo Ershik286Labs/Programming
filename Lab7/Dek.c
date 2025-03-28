@@ -4,18 +4,6 @@
 
 #include "Dek.h"
 
-// Определения констант
-const char* help = "/help";
-const char* pushBack = "/pushBack";
-const char* pushFront = "/pushFront";
-const char* popBack = "/popBack";
-const char* popFront = "/popFront";
-const char* isEmpty = "/isEmpty";
-const char* clear = "/clear";
-const char* swap = "/swap";
-const char* replace = "/replace";
-
-
 const int CommandQuantity = 7;
 
 void Clear(int* len, struct Dek** dek, int ChoiseIndex) {
@@ -57,17 +45,6 @@ void Clear(int* len, struct Dek** dek, int ChoiseIndex) {
         }
     }
     free(tempMassive);
-}
-void Help() {
-    printf("%s - показать все возможные команды\n", help);
-    printf("%s - положить элемент в конец дека\n", pushBack);
-    printf("%s - положить элемент в начало дека\n", pushFront);
-    printf("%s - взять элемент в конце дека\n", popBack);
-    printf("%s - взять элемент в начале дека\n", popFront);
-    printf("%s - проверить наличие элемента в деке\n", isEmpty);
-    printf("%s - удалить выбранный элемент\n", clear);
-    printf("%s - переставить элементы\n", swap);
-    printf("%s - заменить значение элемента дека\n", replace);
 }
 
 void Replace(struct Dek* dek, int ChoiseIndex, int* len) {
