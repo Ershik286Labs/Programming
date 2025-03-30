@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <conio.h>
+#include <Windows.h>
+#include <ctype.h> 
 
 #include "Dek.h"
 
@@ -24,9 +26,8 @@ const char* pushFront = "/pushFront";
 const char* popBack = "/popBack";
 const char* popFront = "/popFront";
 const char* isEmpty = "/isEmpty";
+const char* list = "/list";
 const char* clear = "/clear";
-const char* swap = "/swap";
-const char* replace = "/replace";
 
 void Help() {
     printf("%s - показать все возможные команды\n", help);
@@ -35,19 +36,26 @@ void Help() {
     printf("%s - взять элемент в конце дека\n", popBack);
     printf("%s - взять элемент в начале дека\n", popFront);
     printf("%s - проверить наличие элемента в деке\n", isEmpty);
-    printf("%s - удалить выбранный элемент\n", clear);
-    printf("%s - переставить элементы\n", swap);
-    printf("%s - заменить значение элемента дека\n", replace);
+    printf("%s - очистить дек\n", clear);
 }
 
 int countHistoryCommand = 0;
 
 void HistoryCommand(char* command[]) {
-    countHistoryCommand = countHistoryCommand > 39 ? 0 : countHistoryCommand + 1;
-    for (int i = 1; i < countHistoryCommand + 1; i++) {
-        strcpy(MassiveHistoryCommand[i], MassiveHistoryCommand[i - 1]);
+    if (countHistoryCommand < 40) {
+        countHistoryCommand++;
+    }
+    for (int i = 0; i < countHistoryCommand; i++) {
+        if (strcmp(command, MassiveHistoryCommand[i]) == 0) return; //command is empty in History
+    }
+    char tempMassive[40][100];
+    for (int i = 0; i < countHistoryCommand; i++) {
+        strcpy(tempMassive[i], MassiveHistoryCommand[i]);
     }
     strcpy(MassiveHistoryCommand[0], command);
+    for (int i = 1; i < countHistoryCommand; i++) {
+        strcpy(MassiveHistoryCommand[i], tempMassive[i - 1]);
+    }
 }
 
 const int Tab = 9;
@@ -57,53 +65,71 @@ const int BackSpace = 8;
 int choiseCommand = 0;
 
 int AutoSubstitution(char* command, int count, int NumberCommand) {
-    const char* Function;
+    const char* newCommand;
     switch (NumberCommand) {
-    case 0: Function = pushBack; break;
-    case 1: Function = pushFront; break;
-    case 2: Function = popBack; break;
-    case 3: Function = popFront; break;
-    case 4: Function = isEmpty; break;
-    case 5: Function = clear; break;
-    case 6: Function = swap; break;
-    case 7: Function = help; break;
+    case 0: newCommand = pushBack; break;
+    case 1: newCommand = pushFront; break;
+    case 2: newCommand = popBack; break;
+    case 3: newCommand = popFront; break;
+    case 4: newCommand = isEmpty; break;
+    case 5: newCommand = help; break;
+    case 6: newCommand = list; break;
+    case 7: newCommand = clear; break;
     default: return 0;
     }
     int k1 = 0;
-    int len = count < (int)strlen(Function) ? count : (int)strlen(Function);
+    int len = count < (int)strlen(newCommand) ? count : (int)strlen(newCommand);
 
     for (int i = 0; i < len; i++) {
-        if (command[i] == Function[i]) k1++;
+        if (command[i] == newCommand[i]) k1++;
     }
     return k1;
 }
 
-void Print(int len, struct Dek* dek, char command[]) {
-    system("cls");
-    PrintMassive(len, dek);
-    printf("%s", command);
-}
-
 void Input(int* len, struct Dek** dek) {
-    PrintMassive(*len, *dek);
+    //PrintMassive(*len, *dek);
     char command[100] = { "" };
     int count = 0;
     while (1) {
-        Print(*len, *dek, command);
+        //Print(*len, *dek, command);
         char k = getch();
         if ((int)k == keyUp) {
-            choiseCommand = (choiseCommand + 1) % 40;
-            strcpy(command, MassiveHistoryCommand[choiseCommand]);
-        }
-        if ((int)k == keyDown) {
+            for (int i = 0; i < count; i++) {
+                printf("\b \b");
+            }
             choiseCommand--;
             choiseCommand = choiseCommand < 0 ? 0 : choiseCommand;
             strcpy(command, MassiveHistoryCommand[choiseCommand]);
+            count = strlen(command);
+            for (int i = 0; i < count; i++) {
+                printf("\b \b");
+            }
+            fflush(stdout);
+            printf("%s", command);
+            continue;
+        }
+        if ((int)k == keyDown) {
+            for (int i = 0; i < count; i++) {
+                printf("\b \b");
+            }
+            choiseCommand = (choiseCommand + 1) % 40;
+            strcpy(command, MassiveHistoryCommand[choiseCommand]);
+            count = strlen(command);
+            for (int i = 0; i < count; i++) {
+                printf("\b \b");
+            }
+            fflush(stdout);
+            printf("%s", command);
+            continue;
         }
         if ((int)k == BackSpace) {
             if (count > 0) {
                 count--;
                 command[count] = '\0';
+
+                // Выводим backspace, пробел и снова backspace для удаления символа
+                printf("\b \b");
+                fflush(stdout); // Force output
             }
         }
         else if ((int)k == Tab) {
@@ -124,63 +150,48 @@ void Input(int* len, struct Dek** dek) {
             case 2: fullCommand = popBack; break;
             case 3: fullCommand = popFront; break;
             case 4: fullCommand = isEmpty; break;
-            case 5: fullCommand = clear; break;
-            case 6: fullCommand = swap; break;
-            case 7: fullCommand = help; break;
+            case 5: fullCommand = help; break;
+            case 6: fullCommand = list; break;
+            case 7: fullCommand = clear; break;
             default: fullCommand = ""; break;
             }
             strcpy(command, fullCommand);
             count = strlen(command);
+            for (int i = 0; i < count; i++) {
+                printf("\b \b");
+                fflush(stdout);
+            }
+            printf("%s", command);
         }
         else if ((int)k == Enter) {
             printf("\n");
             if (strcmp(command, pushBack) == 0) {
-                HistoryCommand(command);
                 PushBack(len, dek);
             }
             else if (strcmp(command, pushFront) == 0) {
-                HistoryCommand(command);
                 PushFront(len, dek);
             }
             else if (strcmp(command, popBack) == 0) {
-                HistoryCommand(command);
-                PopBack(*len, *dek, ChoiseIndex, ChoiseFlag, tempChoise);
+                PopBack(len, dek);
             }
             else if (strcmp(command, popFront) == 0) {
-                HistoryCommand(command);
-                PopFront(*len, *dek, ChoiseIndex, ChoiseFlag, tempChoise);
+                PopFront(len, dek);
             }
             else if (strcmp(command, isEmpty) == 0) {
-                HistoryCommand(command);
                 IsEmpty(*len, *dek);
             }
-            else if (strcmp(command, clear) == 0) {
-                HistoryCommand(command);
-                Clear(len, dek, ChoiseIndex);
-            }
-            else if (strcmp(command, swap) == 0) {
-                if (ChoiseFlag == 2) {
-                    HistoryCommand(command);
-                    Swap(*dek, tempChoise, ChoiseIndex);
-                    ChoiseFlag = 0;
-                }
-                else {
-                    printf("сначала выберите 2 элемента\n");
-                }
-            }
-            else if (strcmp(command, replace) == 0) {
-                if (ChoiseFlag == 1) {
-                    HistoryCommand(command);
-                    Replace(*dek, ChoiseIndex, *len);
-                }
-            }
             else if (strcmp(command, help) == 0) {
-                printf("\n");
                 Help();
             }
-            else {
-                printf("Неизвестная команда");
+            else if (strcmp(command, clear) == 0) {
+                Clear(*dek, len);
             }
+            else if (strcmp(command, list) == 0) PrintMassive(*len, *dek);
+            else {
+                printf("Неизвестная команда\n\n");
+                break;
+            }
+            HistoryCommand(command);
             break;
         }
         else if (count < maxLenCommand - 1) {
@@ -189,7 +200,6 @@ void Input(int* len, struct Dek** dek) {
             printf("%c", k);
         }
     }
-    getchar(); // Очистка буфера ввода
 }
 
 int main() {
