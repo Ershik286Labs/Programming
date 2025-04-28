@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="Lab8Popitka2.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="36"/>
+      </Unit>
+      <Unit>
+        <Filename Value="main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Main"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="67"/>
+        <CursorPos X="65" Y="84"/>
+        <UsageCount Value="36"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="generate.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="52"/>
+        <CursorPos X="75" Y="44"/>
+        <UsageCount Value="36"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="sort.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Sort"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="189"/>
+        <CursorPos X="60" Y="217"/>
+        <UsageCount Value="35"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="checking.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="31"/>
+        <CursorPos X="89" Y="64"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\Lab8Programming\generatefile.pas"/>
+        <UnitName Value="GenerateFile"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="78"/>
+        <CursorPos X="5" Y="114"/>
+        <UsageCount Value="13"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\Lab8Programming\mainform.pas"/>
+        <UnitName Value="MainForm"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="10" Y="38"/>
+        <UsageCount Value="13"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="29">
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="43" Column="31" TopLine="22"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="35" Column="22" TopLine="17"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="153" Column="79" TopLine="137"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="18" Column="5"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="32" Column="37"/>
+      </Position>
+      <Position>
+        <Filename Value="sort.pas"/>
+        <Caret Line="38" Column="70" TopLine="19"/>
+      </Position>
+      <Position>
+        <Filename Value="sort.pas"/>
+        <Caret Line="217" Column="67" TopLine="186"/>
+      </Position>
+      <Position>
+        <Filename Value="sort.pas"/>
+        <Caret Line="181" Column="32" TopLine="160"/>
+      </Position>
+      <Position>
+        <Filename Value="sort.pas"/>
+        <Caret Line="25" Column="56" TopLine="22"/>
+      </Position>
+      <Position>
+        <Filename Value="sort.pas"/>
+        <Caret Line="23" Column="119" TopLine="127"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="9" Column="30"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="55" Column="22" TopLine="21"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="28" Column="53" TopLine="21"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="25" Column="42"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="18" Column="8"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="8" Column="77"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="27" Column="24" TopLine="22"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="30" Column="25" TopLine="19"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="31" Column="19" TopLine="8"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="48" Column="43" TopLine="26"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="46" Column="52" TopLine="26"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="151" Column="64" TopLine="97"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="64" Column="5" TopLine="10"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="61" Column="52" TopLine="121"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="66" Column="78" TopLine="44"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="25" Column="22" TopLine="61"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="149" Column="53" TopLine="133"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="60" Column="86" TopLine="35"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="69" Column="100" TopLine="39"/>
+      </Position>
+      <Position>
+        <Filename Value="checking.pas"/>
+        <Caret Line="49" Column="22" TopLine="33"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

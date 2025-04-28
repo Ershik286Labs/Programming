@@ -1,0 +1,79 @@
+object Form1: TForm1
+  Left = 1281
+  Height = 685
+  Top = 115
+  Width = 618
+  Caption = 'Form1'
+  ClientHeight = 685
+  ClientWidth = 618
+  LCLVersion = '3.8.0.0'
+  object GenerateBtn: TButton
+    Left = 24
+    Height = 28
+    Top = 24
+    Width = 88
+    Caption = 'Generate'
+    TabOrder = 0
+    OnClick = GenerateBtnClick
+  end
+  object ProgressBar: TProgressBar
+    Left = 224
+    Height = 28
+    Top = 416
+    Width = 145
+    TabOrder = 1
+  end
+  object SortBtn: TButton
+    Left = 24
+    Height = 28
+    Top = 72
+    Width = 88
+    Caption = 'Sort'
+    TabOrder = 2
+    OnClick = SortBtnClick
+  end
+  object ListBox1: TListBox
+    Left = 128
+    Height = 376
+    Top = 8
+    Width = 424
+    ItemHeight = 0
+    TabOrder = 3
+  end
+  object CheckSort: TButton
+    Left = 24
+    Height = 33
+    Top = 168
+    Width = 88
+    Caption = 'CheckSort'
+    TabOrder = 4
+    OnClick = CheckSortClick
+  end
+  object ToogleSort: TComboBox
+    Left = 24
+    Height = 23
+    Top = 224
+    Width = 86
+    ItemHeight = 15
+    Items.Strings = (
+      'По имени'
+      'По номеру'
+    )
+    TabOrder = 5
+    Text = 'ToogleSort'
+    OnChange = ToogleSortChange
+  end
+  object SelectFile: TButton
+    Left = 24
+    Height = 32
+    Top = 120
+    Width = 89
+    Caption = 'SelectFile'
+    TabOrder = 6
+    OnClick = SelectFileClick
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 56
+    Top = 280
+  end
+end
